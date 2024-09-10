@@ -5,80 +5,76 @@
 <title>parking record</title>
 <link rel="stylesheet" href="style.css">
 <link rel="icon" href="/favicon.ico">
-<script src='./script.js'></script>
+<script src='./script.js' defer></script>
 </head>
 <body>
     <div class="nose">
         <div class="div2">
             <form id='registration-form' style="display: block;" class="registration-form">
-                <h1 class="title">AÑADIR</h1>
+                <h1 class="title">Crear cita medica</h1>
                 <div class="input-group">
-                    <label for='placa'>numero de placa</label>
-                    <input name='placa' id='placa' placeholder="Enter your placa" />
+                    <label for='cc'>Numero de celula</label>
+                    <input name='cc' id='cc' placeholder="Ingresar numero de celula" />
+
+                    <br><br>
+
+                    <label for='dateInput'>Fecha de la cita</label>
+                    <input type="date" id="dateInput" name="dateInput" />
+
+                    <br><br>
+
+                    <label for='authorisation'>Copia de la autorización</label>
+                    <input id="authorisation" type="file" accept="image/png, image/jpeg" />
+                
                 </div>
                 <button class="submit-btn" type='submit'>SUBIR</button>
             </form>
         </div>
         <div class="div1">
             <form id='removal-form' style="display: block;" class="removal-form">
-                <h1 class="title">REMOVER</h1>
+                <h1 class="title">Cancelar cita</h1>
                 <div class="input-group">
-                    <label for='license-plate'>License Plate</label>
-                    <input name='license-plate' id='license-plate' placeholder="Enter license plate" />
+                    <label for='license-plate'>Codigo cita</label>
+                    <input name='license-plate' id='id-cita' placeholder="Ingrese codigo de la cita" />
                 </div>
-                <button class="submit-btn" type='submit'>REMOVER</button>
+                <button class="submit-btn" type='submit'>Cancelar</button>
             </form>
         </div>
     </div>
     <div class="div3">
-        <form
-            id="transmilenio-form"
-            style="display: block;"
-            class="transmilenio-form"
-        >
-            <h1 class="title">BUSCAR</h1>
-            <div class="input-group">
-                <label for="license-plate">Numero de Placa</label>
-                <input
-                    name="license-plate"
-                    id="license-plate"
-                    placeholder="Ingrese el numero de placa"
-                />
+        <form id="transmilenio-form" style="display: block;" class="transmilenio-form">
+            <h1 class="title">Consultar citas</h1>
+            <div class="rangeDate">
+                <div class="startDate">
+                    <label for='startDate'>Fecha inicial</label>
+                    <input type="date" id="startDate" name="startDate" />
+                </div>
+                <div class="endDate">
+                    <label for='endDate'>Fecha final</label>
+                    <input type="date" id="endDate" name="endDate" />
+                </div>
             </div>
-            <button class="submit-btn" type="submit">BUSCAR</button>
-            <div id="cars-search" style="display: block;" class="list">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Numero de placa</th>
-                        <th>Tiempo de llegada</th>
-                        <th>veces editado</th>
-                    </tr>
-                </thead>
-                <tbody id="transmilenio-search">
-                
-                </tbody>
-            </table>
-        </div>
+            <br><br>
+            <div class="search">
+                <button class="submit-btn" type="submit">BUSCAR</button>
+            </div>
+            <div id="citas-list" style="display: block;" class="list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>id cita</th>
+                            <th>CC paciente</th>
+                            <th>Fecha cita</th>
+                            <th>Autorización</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="search">
+                    </tbody>
+                </table>
+            </div>
         </form>
-        
-
-
     </div>
-        <div id="cars-list" style="display: block;" class="list">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Numero de placa</th>
-                        <th>Tiempo de llegada</th>
-                        <th>veces editado</th>
-                    </tr>
-                </thead>
-                <tbody id="transmilenio-table-body">
-                
-                </tbody>
-            </table>
-        </div>
-    <script src='./script.js'></script>
+    <script src='./script.js' defer></script>
 </body>
 </html>
