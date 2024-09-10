@@ -137,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const formData = new FormData(removalForm);
     const id = formData.get("id-cita");
+    console.log(id);
 
        fetch(`http://${IP_ADDRESS}:3000/citas/${id}/cancelar` ,{
       method: "PATCH",
