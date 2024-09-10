@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td>${data.cc}</td>
                 <td>${data.date}</td>
                 <td>authorisation</td>
-                <td>${data.cancelada}</td>
+                <td>${data.cancelada == true ? "Cancelada" : "Vigente"}</td>
               `;
             searchTransmi.appendChild(row);
           });
