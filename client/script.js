@@ -27,64 +27,50 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("An error occurred while fetching the car list. Please try again.");
       });
   }
-  // function fetchCarsList() {
-    // fetch(`http://${IP_ADDRESS}:3000/transmilenio`)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     const carsTableBody = document.getElementById("transmilenio-table-body");
-    //     carsTableBody.innerHTML = "";
-    //     data.forEach((transmilenio) => {
-    //       const row = document.createElement("tr");
-    //       row.innerHTML = `
-    //             <td>${transmilenio.license_plate}</td>
-    //             <td>${transmilenio.timestamp}</td>
-    //             <td>${transmilenio.editing}</td>
-    //         `;
-    //       carsTableBody.appendChild(row);
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //     alert("An error occurred while fetching the car list. Please try again.");
-    //   });
-  // }
+  function fetchCarsList() {
+    console.log('3');
+    fetch(`http://${IP_ADDRESS}:3000/transmilenio`)
+      .then((response) => response.json())
+      .then((data) => {
+        const carsTableBody = document.getElementById("transmilenio-table-body");
+        carsTableBody.innerHTML = "";
+        data.forEach((transmilenio) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                <td>${transmilenio.license_plate}</td>
+                <td>${transmilenio.timestamp}</td>
+                <td>${transmilenio.editing}</td>
+            `;
+          carsTableBody.appendChild(row);
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("An error occurred while fetching the car list. Please try again.");
+      });
+  }
 
   fetchCarsList();
 
   searchTransmileni.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const startDate = document.getElementById("startDate").value;
-    const endDate = document.getElementById("endDate").value;
+    const formData = new FormData(searchTransmileni);
+    const licensePlate = formData.get("license-plate");
 
-    console.log(startDate, endDate);
-
-    if (!startDate || !endDate) {
-        alert("Por favor, ingrese ambas fechas.");
-        return;
-    }
-
-    const url = new URL(`http://${IP_ADDRESS}:3000/citas`);
-    url.searchParams.append('fechaInicio', startDate);
-    url.searchParams.append('fechaFin', endDate);
-
-    fetch(url)
+    fetch(`http://${IP_ADDRESS}:3000/transmilenio/${licensePlate}`)
       .then((response) => response.json())
-      .then((citas) => {
-        const searchTransmi = document.getElementById("search");
+      .then((transmilenio) => {
+        const searchTransmi = document.getElementById("transmilenio-search");
         searchTransmi.innerHTML = "";
-        if (citas) {
-          citas.forEach((data) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                  <td>${data.id}</td>
-                  <td>${data.cc}</td>
-                  <td>${data.date}</td>
-                  <td>des</td>
-                  <td>${data.cancelada}</td>
-              `;
-            searchTransmi.appendChild(row);
-          });
+        if (transmilenio) {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                <td>${transmilenio.license_plate}</td>
+                <td>${transmilenio.timestamp}</td>
+                <td>${transmilenio.editing}</td>
+            `;
+          searchTransmi.appendChild(row);
         } else {
           searchTransmileni.reset();
           alert("Transmilenio no encontrado");
@@ -102,20 +88,10 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
 
     const formData = new FormData(registrationForm);
-    const authorisationFile = document.getElementById("authorisation").files[0];
-    const date = document.getElementById("dateInput").value;
-    if (authorisationFile) {
-      formData.append("authorisation", authorisationFile);
-    }
     const requestData = {
-      cc: formData.get("cc"),
-      date: date,
-      authorisation: authorisationFile ? authorisationFile : null,
+      license_plate: formData.get("placa"),
     };
-    console.log(requestData);
-
-  
-    fetch(`http://${IP_ADDRESS}:3000/citas`, {
+    fetch(`http://${IP_ADDRESS}:3000/transmilenio`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -124,10 +100,10 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then((response) => response.text())
       .then((data) => {
-        if(data.includes('cita updated successfully')){
+        if(data.includes('Car updated successfully')){
         alert(data);}
         registrationForm.reset();
-        // fetchCarsList();
+        fetchCarsList();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -139,18 +115,19 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
 
     const formData = new FormData(removalForm);
-    const id = formData.get("license-plate");
+    const licensePlate = formData.get("license-plate");
 
-    fetch(`http://${IP_ADDRESS}:3000/citas/${id}/cancelar`, {
+    fetch(`http://${IP_ADDRESS}:3000/transmilenio`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ id: id }),
+      body: JSON.stringify({ license_plate: licensePlate }),
     })
       .then((response) => response.text())
       .then((data) => {
         alert(data);
+        fetchCarsList();
         removalForm.reset();
       })
       .catch((error) => {

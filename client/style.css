@@ -10,15 +10,6 @@ body {
 .list {
     padding: 20px;
 }
-.rangeDate {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-.search {
-    display: flex;
-    justify-content: center; 
-}
 .div3 {
     padding: 20px;
 }
